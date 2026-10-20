@@ -21,7 +21,8 @@ self.addEventListener('install', (event) => {
     );
 });
 
-// Aktywacja
+// Zdarzenie 'activate' wywołuje się po udanej instalacji.
+// To dobre miejsce na usuwanie starych, niepotrzebnych wersji pamięci podręcznej.
 self.addEventListener('activate', (event) => {
     console.log('[Service Worker] Aktywacja...');
     event.waitUntil(
@@ -38,11 +39,12 @@ self.addEventListener('activate', (event) => {
     );
 });
 
-// Zdarzenie wywoływane za każdym razem kiedy strona o coś poprosi
+// Zdarzenie 'fetch' wywołuje się za każdym razem, gdy strona o coś prosi 
+// (np. o plik HTML, obrazek, plik CSS).
 self.addEventListener('fetch', (event) => {
     event.respondWith(
-        // Najpierw sprawdzamy, czy mamy plik w pamięci podręcznej
-        caches.match(event.request)
+        // ignorujemy dodatkowe parametry w URL (np. ?source=pwa) dodawane przez telefony
+        caches.match(event.request, {ignoreSearch: true})
             .then((cachedResponse) => {
                 // Jeśli plik jest w pamięci, zwracamy go
                 if (cachedResponse) {
@@ -50,6 +52,12 @@ self.addEventListener('fetch', (event) => {
                 }
                 // Jeśli nie ma, pobieramy go z internetu
                 return fetch(event.request);
+            }).catch(() => {
+                // Fallback: jeśli jesteśmy offline i próbujemy wczytać podstronę/główną stronę,
+                // zwracamy z cache główny plik index.html
+                if (event.request.mode === 'navigate') {
+                    return caches.match('./index.html');
+                }
             })
     );
 });
