@@ -1,0 +1,117 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Karol Nieciecki 82662</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0000ff">
+    <link rel="apple-touch-icon" href="/icon.png">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            margin: 0;
+            height: 100vh;
+        }
+        
+        /* Mobile */
+        .layout-grid {
+            display: grid;
+            gap: 16px;
+            height: 100%;
+            padding: 16px;
+            box-sizing: border-box;
+            grid-template-columns: 1fr 1fr;
+            grid-template-areas: 
+                "a a"
+                "b b"
+                "c d"
+                "e e"
+                "f f";
+        }
+
+        /* tablet */
+        @media (min-width: 768px) {
+            .layout-grid {
+                grid-template-columns: 1fr 1fr 1fr;
+                grid-template-areas: 
+                    "a a a"
+                    "b b b"
+                    "c d e"
+                    "f f f";
+            }
+        }
+
+        /*  desktop */
+        @media (min-width: 1024px) {
+            .layout-grid {
+                grid-template-columns: 1fr 1fr 1fr 1fr;
+                grid-template-areas: 
+                    "a a a a"
+                    "b c d e"
+                    "f f f f";
+            }
+        }
+
+        .area-a { grid-area: a; }
+        .area-b { grid-area: b; }
+        .area-c { grid-area: c; }
+        .area-d { grid-area: d; }
+        .area-e { grid-area: e; }
+        .area-f { grid-area: f; }
+    </style>
+</head>
+<body>
+
+    <main class="layout-grid">
+        
+        <div class="grid-item area-a bg-indigo-500 rounded-2xl flex flex-col items-center justify-center text-white p-6">
+            <span class="text-5xl font-black opacity-50 mb-2">A</span>
+        </div>
+
+        <div class="grid-item area-b bg-pink-500 rounded-2xl flex flex-col items-center justify-center text-white p-6">
+            <span class="text-5xl font-black opacity-50 mb-2">B</span>
+        </div>
+
+        <div class="grid-item area-c bg-amber-500 rounded-2xl flex flex-col items-center justify-center text-white p-6">
+            <span class="text-5xl font-black opacity-50 mb-2">C</span>
+        </div>
+
+        <div class="grid-item area-d bg-emerald-500 rounded-2xl flex flex-col items-center justify-center text-white p-6">
+            <span class="text-5xl font-black opacity-50 mb-2">D</span>
+        </div>
+
+        <div class="grid-item area-e bg-cyan-500 rounded-2xl flex flex-col items-center justify-center text-white p-6">
+            <span class="text-5xl font-black opacity-50 mb-2">E</span>
+        </div>
+
+        <div class="grid-item area-f bg-slate-800 rounded-2xl flex flex-col items-center justify-center text-white p-6">
+            <span class="text-5xl font-black opacity-50 mb-2">F</span>
+        </div>
+
+    </main>
+
+    <script>
+        // Sprawdzamy, czy przeglądarka wspiera Service Workery
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                // Rejestrujemy plik sw.js
+                navigator.serviceWorker.register('./sw.js')
+                    .then((registration) => {
+                        console.log('ServiceWorker zarejestrowany pomyślnie z zakresem: ', registration.scope);
+                    })
+                    .catch((error) => {
+                        console.log('Rejestracja ServiceWorkera nie powiodła się: ', error);
+                    });
+            });
+        }
+    </script>
+    
+</body>
+</html>
